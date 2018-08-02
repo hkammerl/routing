@@ -1,11 +1,14 @@
 package routing;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-
+import java.time.Duration;
+import java.time.Instant;
 
 import dijkstra.*;
 import java.util.Random;
+import java.util.Set;
 
 
 
@@ -16,31 +19,37 @@ public class TestDijkstraAlgorithm {
 
 
     public void testExcute() {
-    	int anzahlVertices = 100;
+    	int anzahlVertices = 10000;
     	int anzahlEdges = 100000;
 
     	nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
+        Instant start = Instant.now();        
         for (int i = 0; i < anzahlVertices; i++) {
             Vertex location = new Vertex("Node_" + i, "Node_" + i);
             nodes.add(location);
         }
-
-        // Standardweg quer durch...
-        for (int i=0; i < anzahlVertices-1; i++) {
-        	addLane("Edge" + i, i, i+1, 100);
-        }
+        Instant end = Instant.now();
+        System.out.println("Time taken: Vertex "+ Duration.between(start, end).toMillis() +" milliseconds");        
+//        // Standardweg quer durch...
+//        for (int i=0; i < anzahlVertices-1; i++) {
+//        	addLane("Edge-1-" + i, i, i+1, 100);
+//        }
+        start = Instant.now();        
         
-        for (int i=0;i<anzahlEdges-1;i++) {
+        for (int i=0;i<anzahlEdges;i++) {
         	Random rand1 = new Random(); 
         	int value1 = rand1.nextInt(anzahlVertices);
         	Random rand2 = new Random(); 
         	int value2 = rand2.nextInt(anzahlVertices);         	
         	Random rand3 = new Random(); 
-        	int value3 = rand3.nextInt(10);         	
+        	int value3 = rand3.nextInt(10);
         	
-        	addLane("Edge" + i, value1, value2, value3);
+        	addLane("Edge-2-" + i, value1, value2, value3);
         }
+        end = Instant.now();
+        System.out.println("Time taken: Edges "+ Duration.between(start, end).toMillis() +" milliseconds");        
+        
         
 //        addLane("Edge_0", 0, 1, 85);
 //        addLane("Edge_1", 0, 2, 217);
@@ -58,13 +67,24 @@ public class TestDijkstraAlgorithm {
         // Lets check from location Loc_1 to Loc_10
         Graph graph = new Graph(nodes, edges);
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
+        start = Instant.now();
         System.out.println("Execute");
         dijkstra.execute(nodes.get(0));
+        end = Instant.now();
+        System.out.println("Time taken: Execute "+ Duration.between(start, end).toMillis() +" milliseconds");        
+        
+        start = Instant.now();
         System.out.println("Path");
         LinkedList<Vertex> path = dijkstra.getPath(nodes.get(anzahlVertices-1));
+        end = Instant.now();
+        System.out.println("Time taken: Path "+ Duration.between(start, end).toMillis() +" milliseconds");        
+
+        start = Instant.now();
         System.out.println("Route");
         LinkedList<Edge> route = dijkstra.getRoute(nodes.get(anzahlVertices-1));
         System.out.println("Finished");
+        end = Instant.now();
+        System.out.println("Time taken: Route "+ Duration.between(start, end).toMillis() +" milliseconds");        
 
         if (path == null) {
         	System.out.println("NULL");
