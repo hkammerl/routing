@@ -14,20 +14,20 @@ import java.util.Set;
 
 public class TestDijkstraAlgorithm {
 
-    private List<Vertex> nodes;
+    private List<Vertex> verteces;
     private List<Edge> edges;
 
 
     public void testExcute() {
-    	int anzahlVertices = 10000;
-    	int anzahlEdges = 100000;
+    	int anzahlVertices = 1000;
+    	int anzahlEdges = 10000;
 
-    	nodes = new ArrayList<Vertex>();
+    	verteces = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
         Instant start = Instant.now();        
         for (int i = 0; i < anzahlVertices; i++) {
             Vertex location = new Vertex("Node_" + i, "Node_" + i);
-            nodes.add(location);
+            verteces.add(location);
         }
         Instant end = Instant.now();
         System.out.println("Time taken: Vertex "+ Duration.between(start, end).toMillis() +" milliseconds");        
@@ -65,23 +65,23 @@ public class TestDijkstraAlgorithm {
 //        addLane("Edge_11", 1, 10, 600);
 
         // Lets check from location Loc_1 to Loc_10
-        Graph graph = new Graph(nodes, edges);
+        Graph graph = new Graph(verteces, edges);
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
         start = Instant.now();
         System.out.println("Execute");
-        dijkstra.execute(nodes.get(0));
+        dijkstra.execute(verteces.get(0));
         end = Instant.now();
         System.out.println("Time taken: Execute "+ Duration.between(start, end).toMillis() +" milliseconds");        
         
         start = Instant.now();
         System.out.println("Path");
-        LinkedList<Vertex> path = dijkstra.getPath(nodes.get(anzahlVertices-1));
+        LinkedList<Vertex> path = dijkstra.getPath(verteces.get(anzahlVertices-1));
         end = Instant.now();
         System.out.println("Time taken: Path "+ Duration.between(start, end).toMillis() +" milliseconds");        
 
         start = Instant.now();
         System.out.println("Route");
-        LinkedList<Edge> route = dijkstra.getRoute(nodes.get(anzahlVertices-1));
+        LinkedList<Edge> route = dijkstra.getRoute(verteces.get(anzahlVertices-1));
         System.out.println("Finished");
         end = Instant.now();
         System.out.println("Time taken: Route "+ Duration.between(start, end).toMillis() +" milliseconds");        
@@ -108,7 +108,7 @@ public class TestDijkstraAlgorithm {
 
     private void addLane(String laneId, int sourceLocNo, int destLocNo,
             int duration) {
-        Edge lane = new Edge(laneId,nodes.get(sourceLocNo), nodes.get(destLocNo), duration );
+        Edge lane = new Edge(laneId,verteces.get(sourceLocNo), verteces.get(destLocNo), duration );
         edges.add(lane);
     }
 }
