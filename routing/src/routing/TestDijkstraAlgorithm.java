@@ -19,8 +19,8 @@ public class TestDijkstraAlgorithm {
 
 
     public void testExcute() {
-    	int anzahlVertices = 1000;
-    	int anzahlEdges = 10000;
+    	int anzahlVertices = 10;
+    	int anzahlEdges = 0;
 
     	verteces = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
@@ -35,6 +35,10 @@ public class TestDijkstraAlgorithm {
 //        for (int i=0; i < anzahlVertices-1; i++) {
 //        	addLane("Edge-1-" + i, i, i+1, 100);
 //        }
+        addEdgeByVertexId("Node_0", "Node_1", 1);
+        addEdgeByVertexId("Node_1", "Node_4", 1);
+        addEdgeByVertexId("Node_4", "Node_9", 1);
+        
         start = Instant.now();        
         
         for (int i=0;i<anzahlEdges;i++) {
@@ -45,24 +49,12 @@ public class TestDijkstraAlgorithm {
         	Random rand3 = new Random(); 
         	int value3 = rand3.nextInt(10);
         	
-        	addLane("Edge-2-" + i, value1, value2, value3);
+        	addEdgeByIndex("Edge-2-" + i, value1, value2, value3);
         }
         end = Instant.now();
         System.out.println("Time taken: Edges "+ Duration.between(start, end).toMillis() +" milliseconds");        
         
         
-//        addLane("Edge_0", 0, 1, 85);
-//        addLane("Edge_1", 0, 2, 217);
-//        addLane("Edge_2", 0, 4, 173);
-//        addLane("Edge_3", 2, 6, 186);
-//        addLane("Edge_4", 2, 7, 103);
-//        addLane("Edge_5", 3, 7, 183);
-//        addLane("Edge_6", 5, 8, 250);
-//        addLane("Edge_7", 8, 9, 84);
-//        addLane("Edge_8", 7, 9, 167);
-//        addLane("Edge_9", 4, 9, 502);
-//        addLane("Edge_10", 9, 10, 40);
-//        addLane("Edge_11", 1, 10, 600);
 
         // Lets check from location Loc_1 to Loc_10
         Graph graph = new Graph(verteces, edges);
@@ -105,8 +97,25 @@ public class TestDijkstraAlgorithm {
 
         
     }
-
-    private void addLane(String laneId, int sourceLocNo, int destLocNo,
+    
+    private void addEdgeByVertexId(String sourceVertexId, String targetVertexId, int weight) {
+    	Vertex source=null;;
+    	Vertex target=null;
+    	for (Vertex vertex: verteces) {    	
+    		if (vertex.getId().equals(sourceVertexId)) {
+    			source = vertex;
+    		}
+    		if (vertex.getId().equals(targetVertexId)) {
+    			target = vertex;
+    		}
+    	}
+    	
+    	Edge lane = new Edge(source.getId() + "-->" + target.getId(), source, target,weight);
+    	edges.add(lane);
+    	
+    }
+    
+    private void addEdgeByIndex(String laneId, int sourceLocNo, int destLocNo,
             int duration) {
         Edge lane = new Edge(laneId,verteces.get(sourceLocNo), verteces.get(destLocNo), duration );
         edges.add(lane);
