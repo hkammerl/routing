@@ -1,5 +1,6 @@
 package routing;
 import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import dijkstra.*;
+import logistics.*;
 import java.util.Random;
 import java.util.Set;
 
@@ -14,7 +16,7 @@ import java.util.Set;
 
 public class TestDijkstraAlgorithm {
 
-    private List<Vertex> verteces;
+    private List<Location> locations;
     private List<Edge> edges;
 
 
@@ -22,12 +24,12 @@ public class TestDijkstraAlgorithm {
     	int anzahlVertices = 10;
     	int anzahlEdges = 0;
 
-    	verteces = new ArrayList<Vertex>();
+    	locations = new ArrayList();
         edges = new ArrayList<Edge>();
         Instant start = Instant.now();        
         for (int i = 0; i < anzahlVertices; i++) {
-            Vertex location = new Vertex("Node_" + i, "Node_" + i);
-            verteces.add(location);
+            Location location = new Location("loc " + i);
+            locations.add(location);
         }
         Instant end = Instant.now();
         System.out.println("Time taken: Vertex "+ Duration.between(start, end).toMillis() +" milliseconds");        
@@ -35,9 +37,9 @@ public class TestDijkstraAlgorithm {
 //        for (int i=0; i < anzahlVertices-1; i++) {
 //        	addLane("Edge-1-" + i, i, i+1, 100);
 //        }
-        addEdgeByVertexId("Node_0", "Node_1", 1);
-        addEdgeByVertexId("Node_1", "Node_4", 1);
-        addEdgeByVertexId("Node_4", "Node_9", 1);
+        addEdgeByLocationNumber("loc 0", "loc 1", 1);
+        addEdgeByLocationNumber("loc 1", "loc 4", 1);
+        addEdgeByLocationNumber("loc 4", "loc 9", 1);
         
         start = Instant.now();        
         
@@ -57,23 +59,23 @@ public class TestDijkstraAlgorithm {
         
 
         // Lets check from location Loc_1 to Loc_10
-        Graph graph = new Graph(verteces, edges);
+        Graph graph = new Graph(locations, edges);
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
         start = Instant.now();
         System.out.println("Execute");
-        dijkstra.execute(verteces.get(0));
+        dijkstra.execute(locations.get(0));
         end = Instant.now();
         System.out.println("Time taken: Execute "+ Duration.between(start, end).toMillis() +" milliseconds");        
         
         start = Instant.now();
         System.out.println("Path");
-        LinkedList<Vertex> path = dijkstra.getPath(verteces.get(anzahlVertices-1));
+        LinkedList<Location> path = dijkstra.getPath(locations.get(anzahlVertices-1));
         end = Instant.now();
         System.out.println("Time taken: Path "+ Duration.between(start, end).toMillis() +" milliseconds");        
 
         start = Instant.now();
         System.out.println("Route");
-        LinkedList<Edge> route = dijkstra.getRoute(verteces.get(anzahlVertices-1));
+        LinkedList<Edge> route = dijkstra.getRoute(locations.get(anzahlVertices-1));
         System.out.println("Finished");
         end = Instant.now();
         System.out.println("Time taken: Route "+ Duration.between(start, end).toMillis() +" milliseconds");        
@@ -88,7 +90,7 @@ public class TestDijkstraAlgorithm {
         	return;
         }
         
-        for (Vertex vertex : path) {
+        for (Location vertex : path) {
             System.out.println(vertex);
         }
         for (Edge edge: route) {
@@ -98,26 +100,31 @@ public class TestDijkstraAlgorithm {
         
     }
     
-    private void addEdgeByVertexId(String sourceVertexId, String targetVertexId, int weight) {
-    	Vertex source=null;;
-    	Vertex target=null;
-    	for (Vertex vertex: verteces) {    	
-    		if (vertex.getId().equals(sourceVertexId)) {
-    			source = vertex;
+    private void addEdgeByLocationNumber(String sourceLocationNumber, String targetLocationNumber, int weight) {
+    	Location source=null;;
+    	Location target=null;
+    	for (Location  loc: locations) {    	
+    		if (loc.getLocationNumber().equals(sourceLocationNumber)) {
+    			source = loc;
     		}
-    		if (vertex.getId().equals(targetVertexId)) {
-    			target = vertex;
+    		if (loc.getLocationNumber().equals(targetLocationNumber)) {
+    			target = loc;
     		}
     	}
     	
-    	Edge lane = new Edge(source.getId() + "-->" + target.getId(), source, target,weight);
+    	if (source != null && target != null) {
+    	Edge lane = new Edge(source, target, weight);
     	edges.add(lane);
+    	}
+    	else {
+    		System.out.println("addEdgeByLocationNummer failed");
+    	}
     	
     }
     
     private void addEdgeByIndex(String laneId, int sourceLocNo, int destLocNo,
             int duration) {
-        Edge lane = new Edge(laneId,verteces.get(sourceLocNo), verteces.get(destLocNo), duration );
+        Edge lane = new Edge(locations.get(sourceLocNo), locations.get(destLocNo), duration );
         edges.add(lane);
     }
 }

@@ -1,21 +1,17 @@
 package dijkstra;
 
+import java.util.UUID;
+
 public class Vertex {
 
-    final private String id;
-    final private String name;
+    final private UUID id;
 
-
-    public Vertex(String id, String name) {
-        this.id = id;
-        this.name = name;
+    public Vertex() {
+    	id=UUID.randomUUID();
     }
-    public String getId() {
+
+    public UUID getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
@@ -45,7 +41,7 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return name;
+        return id.toString();
     }
 
 }

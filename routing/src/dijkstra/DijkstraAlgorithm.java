@@ -101,7 +101,8 @@ public class DijkstraAlgorithm {
 	 * This method returns the path from the source to the selected target and NULL
 	 * if no path exists
 	 */
-	public LinkedList<Vertex> getPath(Vertex target) {
+	// returns list of Vertices
+	public LinkedList getPath(Vertex target) {
 		LinkedList<Vertex> path = new LinkedList<Vertex>();
 		Vertex step = target;
 		// check if a path exists
@@ -118,7 +119,8 @@ public class DijkstraAlgorithm {
 		return path;
 	}
 
-	public LinkedList<Edge> getRoute(Vertex target) {
+	//return list of Edges
+	public LinkedList getRoute(Vertex target) {
 		LinkedList<Vertex> path = new LinkedList<Vertex>();
 		LinkedList<Edge> route = new LinkedList<Edge>();
 		Vertex step = target;
