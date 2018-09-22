@@ -6,10 +6,6 @@ public class Location extends Vertex {
 	
 	private String locationNumber;
 	
-    public Location() {
-    	super();
-    }
-    
     public Location(String locationNumber) {
     	super();
     	this.locationNumber = locationNumber;
@@ -20,6 +16,6 @@ public class Location extends Vertex {
     }
     
     public String toString() {
-    	return (super.toString() + " - " + locationNumber);
+    	return (locationNumber);
     }
 }

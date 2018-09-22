@@ -7,10 +7,15 @@ public class Routing {
 		
 		System.out.println("Routing Start");
 		
-		TestDijkstraAlgorithm test = new TestDijkstraAlgorithm();
-		test.testExcute();
+		//TestDijkstraAlgorithm test = new TestDijkstraAlgorithm();
+		//test.testExcute();
+		Setup setup = new Setup();
+		setup.prepare();
+		setup.run();
 		
 		System.out.println("Routing End");
+		
+
 	}
 
 }

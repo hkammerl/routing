@@ -17,7 +17,7 @@ import java.util.Set;
 public class TestDijkstraAlgorithm {
 
     private List<Location> locations;
-    private List<Edge> edges;
+    private List<TransportPath> transportPaths;
 
 
     public void testExcute() {
@@ -25,7 +25,7 @@ public class TestDijkstraAlgorithm {
     	int anzahlEdges = 0;
 
     	locations = new ArrayList();
-        edges = new ArrayList<Edge>();
+        transportPaths = new ArrayList();
         Instant start = Instant.now();        
         for (int i = 0; i < anzahlVertices; i++) {
             Location location = new Location("loc " + i);
@@ -37,9 +37,9 @@ public class TestDijkstraAlgorithm {
 //        for (int i=0; i < anzahlVertices-1; i++) {
 //        	addLane("Edge-1-" + i, i, i+1, 100);
 //        }
-        addEdgeByLocationNumber("loc 0", "loc 1", 1);
-        addEdgeByLocationNumber("loc 1", "loc 4", 1);
-        addEdgeByLocationNumber("loc 4", "loc 9", 1);
+        addTransportPathByLocationNumber("loc 0", "loc 1", 1);
+        addTransportPathByLocationNumber("loc 1", "loc 4", 1);
+        addTransportPathByLocationNumber("loc 4", "loc 9", 1);
         
         start = Instant.now();        
         
@@ -51,7 +51,7 @@ public class TestDijkstraAlgorithm {
         	Random rand3 = new Random(); 
         	int value3 = rand3.nextInt(10);
         	
-        	addEdgeByIndex("Edge-2-" + i, value1, value2, value3);
+        	addTransportPathByIndex("Edge-2-" + i, value1, value2, value3);
         }
         end = Instant.now();
         System.out.println("Time taken: Edges "+ Duration.between(start, end).toMillis() +" milliseconds");        
@@ -59,7 +59,7 @@ public class TestDijkstraAlgorithm {
         
 
         // Lets check from location Loc_1 to Loc_10
-        Graph graph = new Graph(locations, edges);
+        Graph graph = new Graph(locations, transportPaths);
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
         start = Instant.now();
         System.out.println("Execute");
@@ -100,7 +100,7 @@ public class TestDijkstraAlgorithm {
         
     }
     
-    private void addEdgeByLocationNumber(String sourceLocationNumber, String targetLocationNumber, int weight) {
+    private void addTransportPathByLocationNumber(String sourceLocationNumber, String targetLocationNumber, int weight) {
     	Location source=null;;
     	Location target=null;
     	for (Location  loc: locations) {    	
@@ -113,8 +113,8 @@ public class TestDijkstraAlgorithm {
     	}
     	
     	if (source != null && target != null) {
-    	Edge lane = new Edge(source, target, weight);
-    	edges.add(lane);
+    	TransportPath lane = new TransportPath(source.getLocationNumber() + " -> " + target.getLocationNumber(), source, target, weight);
+    	transportPaths.add(lane);
     	}
     	else {
     		System.out.println("addEdgeByLocationNummer failed");
@@ -122,9 +122,9 @@ public class TestDijkstraAlgorithm {
     	
     }
     
-    private void addEdgeByIndex(String laneId, int sourceLocNo, int destLocNo,
+    private void addTransportPathByIndex(String laneId, int sourceLocNo, int destLocNo,
             int duration) {
-        Edge lane = new Edge(locations.get(sourceLocNo), locations.get(destLocNo), duration );
-        edges.add(lane);
+        TransportPath lane = new TransportPath(laneId, locations.get(sourceLocNo), locations.get(destLocNo), duration);
+        transportPaths.add(lane);
     }
 }
