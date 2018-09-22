@@ -9,7 +9,7 @@ import dijkstra.DijkstraAlgorithm;
 import dijkstra.Graph;
 import logistics.*;
 
-public class Setup {
+public class Warehouse {
 
 	private List<Location> locations;
 	private List<TransportPath> transportPaths;
@@ -76,7 +76,7 @@ public class Setup {
 		Location sourceLocation = locations.stream()
 				.filter(location -> "OSR-1/1/1".equals(location.getLocationNumber())).findAny().orElse(null);
 		System.out.println(sourceLocation.toString());
-		
+
 		// ZIEL-LOCATION
 		Location targetLocation = locations.stream().filter(location -> "S-1".equals(location.getLocationNumber()))
 				.findAny().orElse(null);
@@ -85,6 +85,7 @@ public class Setup {
 		dijkstra.execute(sourceLocation);
 
 		LinkedList<Location> path = dijkstra.getPath(targetLocation);
+		LinkedList<TransportPath> route = dijkstra.getRoute(targetLocation);
 
 		if (path == null) {
 			System.out.println("NULL");
@@ -94,8 +95,6 @@ public class Setup {
 		for (Location location : path) {
 			System.out.println(location);
 		}
-
-		LinkedList<TransportPath> route = dijkstra.getRoute(targetLocation);
 
 		if (route == null) {
 			System.out.println("NULL");

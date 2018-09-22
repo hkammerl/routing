@@ -9,9 +9,9 @@ public class Routing {
 		
 		//TestDijkstraAlgorithm test = new TestDijkstraAlgorithm();
 		//test.testExcute();
-		Setup setup = new Setup();
-		setup.prepare();
-		setup.run();
+		Warehouse warehouse = new Warehouse();
+		warehouse.prepare();
+		warehouse.run();
 		
 		System.out.println("Routing End");
 		
