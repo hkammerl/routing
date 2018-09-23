@@ -8,7 +8,15 @@ public class Unit {
 		this.barcode = barcode;
 		this.location = location;
 	}
-	void UpdateLocation(Location location) {
+	public void UpdateLocation(Location location) {
 		this.location = location;
+	}
+	
+	public String getUnitBarcode() {
+		return (barcode);
+	}
+	
+	public String toString() {
+		return(barcode + " -> " + location.toString());
 	}
 }

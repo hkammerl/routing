@@ -16,12 +16,14 @@ public class Warehouse {
 	public Set<Location> locations;
 	public Set<TransportPath> transportPaths;
 	public Set<Unit> units;
+	public Set<TransportSystem> transportSystems;
+	public Set<Order> orders;
 
 	private int BFTDuration = 100;
 	private int VorzoneDuration = 5;
 	private int ShuttleDuration = 10;
 	private int LiftDuration = 1;
-	private int OSRAisles = 10; // muss gerade sein
+	private int OSRAisles = 10; // muss gerade sein, jeweils 2 stationen sind verbunden
 	private int LevelsPerOSR = 20;
 	private int LocationsPerLevel = 100;
 	private int NumberOfStations = OSRAisles;
@@ -31,8 +33,10 @@ public class Warehouse {
 		locations = new HashSet();
 		transportPaths = new HashSet();
 		units = new HashSet();
+		orders = new HashSet();
 
 		// Loop Locations und Stationen
+		System.out.println("Loop & Stations");
 		Location osrBFT1 = null;
 		Location stationBFT1 = null;
 		for (int s = 1; s <= NumberOfStations; s++) {
@@ -64,8 +68,9 @@ public class Warehouse {
 		}
 
 		// OSR Gassen
+		System.out.println("OSR Gassen & Lift");
 		for (int a = 1; a <= OSRAisles; a++) {
-			System.out.println("OSR-GASSE - " + a);
+			//System.out.println("OSR-GASSE - " + a);
 
 			// OSR-OUT Location
 			Location out = new Location("OSR-OUT" + a);
@@ -97,6 +102,17 @@ public class Warehouse {
 				}
 			}
 		}
+		System.out.println("Orders");
+		String zielLocation = String.format("S-%d", 1);
+		Order order = new Order(locations.stream()
+				.filter(location -> zielLocation.equals(location.getLocationNumber())).findAny().orElse(null));
+		for (int u=1;u<=5;u++) {
+			String unitBarcode = String.format("OSR-%d/%d/%d", u,1,1);
+			order.appendUnitToSequence(units.stream()
+				.filter(unit -> unitBarcode.equals(unit.getUnitBarcode())).findAny().orElse(null));
+		}
+		System.out.println(order.toString());
+		
 		System.out.println("PREPARE - FINISHED");
 	}
 }

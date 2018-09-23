@@ -38,7 +38,7 @@ public class Routing {
 		System.out.println(sourceLocation.toString());
 
 		// ZIEL-LOCATION
-		Location targetLocation = warehouse.locations.stream().filter(location -> "S-9".equals(location.getLocationNumber()))
+		Location targetLocation = warehouse.locations.stream().filter(location -> "S-8".equals(location.getLocationNumber()))
 				.findAny().orElse(null);
 		System.out.println(targetLocation.toString());
 
