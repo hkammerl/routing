@@ -104,7 +104,7 @@ public class Warehouse {
 		}
 		System.out.println("Orders");
 		String zielLocation = String.format("S-%d", 1);
-		Order order = new Order(locations.stream()
+		Order order = new Order(1,locations.stream()
 				.filter(location -> zielLocation.equals(location.getLocationNumber())).findAny().orElse(null));
 		for (int u=1;u<=5;u++) {
 			String unitBarcode = String.format("OSR-%d/%d/%d", u,1,1);
